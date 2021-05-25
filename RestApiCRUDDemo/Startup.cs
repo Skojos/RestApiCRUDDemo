@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using RestApiCRUDDemo.EmployeeData;
 
 namespace RestApiCRUDDemo
 {
@@ -28,6 +29,9 @@ namespace RestApiCRUDDemo
         {
 
             services.AddControllers();
+
+            services.AddSingleton<IEmployeeData, MockEmployeeData>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "RestApiCRUDDemo", Version = "v1" });

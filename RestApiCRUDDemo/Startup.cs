@@ -6,12 +6,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using RestApiCRUDDemo.EmployeeData;
+using RestApiCRUDDemo.Models;
 
 namespace RestApiCRUDDemo
 {
@@ -30,7 +32,12 @@ namespace RestApiCRUDDemo
 
             services.AddControllers();
 
-            services.AddSingleton<IEmployeeData, MockEmployeeData>();
+            services.AddDbContext<EmployeeContext>(options => options.UseSqlServer(
+                Configuration.GetConnectionString("EmployeeContext")));
+
+          
+
+            services.AddScoped<IEmployeeData, SqlEmployeeData>();
 
             services.AddSwaggerGen(c =>
             {
